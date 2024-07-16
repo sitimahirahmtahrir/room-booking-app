@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bookings - Room Booking System</title>
+    <link rel="stylesheet" href="../shared/css/common.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="manage-bookings">
+        <h1>Manage Bookings</h1>
+        <form id="add-booking-form">
+            <input type="text" id="room" placeholder="Room Number" required>
+            <input type="date" id="date" required>
+            <input type="time" id="start-time" required>
+            <input type="time" id="end-time" required>
+            <input type="text" id="user" placeholder="User Name" required>
+            <button type="submit">Add Booking</button>
+        </form>
+        <h2>Existing Bookings</h2>
+        <div id="bookings-list"></div>
+    </div>
+    <script src="../shared/js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('add-booking-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const room = document.getElementById('room').value;
+            const date = document.getElementById('date').value;
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+            const user = document.getElementById('user').value;
+
+            fetch('/api/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ room, date, startTime, endTime, user })
+            }).then(response => response.json())
+              .then(data => {
+                  alert('Booking added successfully');
+                  loadBookings();
+              })
+              .catch(error => console.error('Error:', error));
+        });
+
+        function loadBookings() {
+            fetch('/api/bookings')
+                .then(response => response.json())
+                .then(bookings => {
+                    const list = document.getElementById('bookings-list');
+                    list.innerHTML = '';
+                    bookings.forEach(booking => {
+                        const div = document.createElement('div');
+                        div.textContent = `${booking.date} - Room ${booking.room}: ${booking.startTime} to ${booking.endTime} (User: ${booking.user})`;
+                        list.appendChild(div);
+                    });
+                });
+       

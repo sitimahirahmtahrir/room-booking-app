@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Rooms - Room Booking System</title>
+    <link rel="stylesheet" href="../shared/css/common.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="manage-rooms">
+        <h1>Manage Rooms</h1>
+        <form id="add-room-type-form">
+            <input type="text" id="type" placeholder="Room Type" required>
+            <textarea id="description" placeholder="Description" required></textarea>
+            <button type="submit">Add Room Type</button>
+        </form>
+        <h2>Existing Room Types</h2>
+        <div id="room-types-list"></div>
+    </div>
+    <script src="../shared/js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('add-room-type-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const type = document.getElementById('type').value;
+            const description = document.getElementById('description').value;
+
+            fetch('/api/room-types', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type, description })
+            }).then(response => response.json())
+              .then(data => {
+                  alert('Room type added successfully');
+                  loadRoomTypes();
+              })
+              .catch(error => console.error('Error:', error));
+        });
+
+        function loadRoomTypes() {
+            fetch('/api/room-types')
+                .then(response => response.json())
+                .then(roomTypes => {
+                    const list = document.getElementById('room-types-list');
+                    list.innerHTML = '';
+                    roomTypes.forEach(roomType => {
+                        const div = document.createElement('div');
+                        div.textContent = `${roomType.type}: ${roomType.description}`;
+                        list.appendChild(div);
+                    });
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadRoomTypes);
+    </script>
+</body>
+</html>

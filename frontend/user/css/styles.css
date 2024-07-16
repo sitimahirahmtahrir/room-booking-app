@@ -1,0 +1,54 @@
+#user-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+}
+
+#booking-form, #view-bookings, #admin-login {
+    margin: 20px 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input, button {
+    margin: 10px 0;
+    width: 100%;
+    padding: 10px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#admin-login button {
+    background-color: #007bff;
+}
+
+#admin-login button:hover {
+    background-color: #0056b3;
+}
+
+#bookings-list {
+    margin-top: 20px;
+    text-align: left;
+    width: 100%;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Bookings - Room Booking System</title>
+    <link rel="stylesheet" href="../shared/css/common.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="view-bookings">
+        <h1>View Bookings</h1>
+        <div>
+            <button onclick="loadBookings('day')">Day</button>
+            <button onclick="loadBookings('week')">Week</button>
+            <button onclick="loadBookings('month')">Month</button>
+        </div>
+        <h2>Bookings</h2>
+        <div id="bookings-list"></div>
+    </div>
+    <script src="../shared/js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        function loadBookings(timeFrame) {
+            fetch(`/api/bookings/${timeFrame}`)
+                .then(response => response.json())
+                .then(bookings => {
+                    const list = document.getElementById('bookings-list');
+                    list.innerHTML = '';
+                    bookings.forEach(booking => {
+                        const div = document.createElement('div');
+                        div.textContent = `${booking.date} - Room ${booking.room}: ${booking.startTime} to ${booking.endTime} (User: ${booking.user})`;
+                        list.appendChild(div);
+                    });
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBookings('day'); // Load today's bookings by default
+        });
+    </script>
+</body>
+</html>
