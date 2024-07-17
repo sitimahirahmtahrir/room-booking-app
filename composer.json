@@ -5,8 +5,6 @@
     "require": {
         "slim/slim": "^4.8",
         "slim/psr7": "^1.5",
-        "slim/http": "^1.2",
-        "slim/exception": "^1.0",
         "php-di/php-di": "^6.3",
         "vlucas/phpdotenv": "^5.3"
     },
@@ -21,6 +19,6 @@
         "phpunit/phpunit": "^9.5"
     },
     "scripts": {
-        "start": "php -S localhost:8080 -t public"
+        "start": "php -S localhost:8080"
     }
 }
